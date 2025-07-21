@@ -1,72 +1,227 @@
-# Python project template
+# py-ipaplots
 
-Template repository for a python project.
+A matplotlib style package for creating IPA-themed plots. This package provides a custom matplotlib style that matches the visual identity of Innovations for Poverty Action (IPA).
 
-## Development set up
+## Features
 
-Development relies on the following software
+- **IPA Color Palette**: 15 carefully selected colors matching IPA's branding
+- **Arial Font**: Clean sans-serif font for all text elements
+- **Clean Design**: White background with subtle gridlines
+- **Consistent Styling**: Uniform appearance across all plot types
 
-- `winget` (Windows) or `homebrew` (MacOS/Linux) or `snap` (Linux) for package management and installation
-- `git` for source control management
-- `just` for running common command line patterns
-- `uv` for installing Python and managing virtual environments
+## Installation
 
-This repository uses a `Justfile` for collecting common command line actions that we run
-to set up the computing environment and build the assets of the handbook. Note that you
-should also have Git installed
-
-To get started, make sure you have `Just` installed on your computer by running the
-following from the command line:
-
-| Platform  | Commands                                                            |
-| --------- | ------------------------------------------------------------------- |
-| Windows   | `winget install Git.Git Casey.Just astral-sh.uv GitHub.cli Posit.Quarto` |
-| Mac/Linux | `brew install just uv gh`                                          |
-
-This will make sure that you have the latest version of `Just`, as well as
-[uv](https://docs.astral.sh/uv/) (installer for Python) and
-[Quarto](https://quarto.org/docs/guide/) (for writing and compiling scientific and
-technical documents).
-
-- We use `Just` in order to make it easier for all IPA users to be productive with data
-  and technology systems. The goal of using a `Justfile` is to help make the end goal of
-  the user easier to achieve without needing to know or remember all of the technical
-  details of how we get to that goal.
-- We use `uv` to help ease use of Python. `uv` provides a global system for creating and
-  building computing environments for Python.
-- We use Quarto to allow users to focus on writing and data analytics. Writing in
-  markdown, jupyter notebooks, python scripts, R scripts, etc. makes it easier to
-  review, update, and deploy technical documentation.
-- We also recommend using in Integrated Development Environment (IDE).
-  Preferred options are `VS Code` or `Positron`.
-
-| Platform  | Commands                                                            |
-| --------- | ------------------------------------------------------------------- |
-| Windows   | `winget install Microsoft.VisualStudioCode`                         |
-| Mac       | `brew install --cask visual-studio-code`                            |
-| Linux     | `sudo snap install code --classic`                                  |
-
-| Platform  | Commands                                                            |
-| --------- | ------------------------------------------------------------------- |
-| Windows   | `winget install Posit.Positron`                                     |
-| Mac       | `brew install --cask positron`                                      |
-
-As a shortcut, if you already have `Just` installed, you can run the following to
-install required software and build a python virtual environment that is used to build
-the handbook pages:
+### From Source (Development)
 
 ```bash
-just get-started
+# Clone the repository
+git clone https://github.com/PovertyAction/ipaplots.git
+cd py-ipaplots
+
+# Install with uv (recommended)
+uv pip install .
+
+# Or install with pip
+pip install .
 ```
 
-Note: you may need to restart your terminal after running the command above to activate
-the installed software.
+### For Development
 
-After the required software is installed, you can activate the Python virtual
-environment:
+```bash
+# Install in editable mode
+uv pip install -e .
 
-| Shell      | Commands                                |
-| ---------- | --------------------------------------- |
-| Bash       | `.venv/Scripts/activate`                |
-| Powershell | `.venv/Scripts/activate.ps1`            |
-| Nushell    | `overlay use .venv/Scripts/activate.nu` |
+# Or with pip
+pip install -e .
+```
+
+## Usage
+
+### Basic Usage
+
+```python
+import matplotlib.pyplot as plt
+import ipaplots
+
+# Option 1: Use the style for all plots
+plt.style.use("ipaplots")
+
+# Option 2: Use the style context manager
+with plt.style.context("ipaplots"):
+    plt.plot([1, 2, 3], [4, 5, 6])
+    plt.show()
+
+# Option 3: Load style explicitly
+ipaplots.load_style()
+```
+
+### Example: Creating a Line Plot
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import ipaplots
+
+# Use IPA style
+plt.style.use("ipaplots")
+
+# Generate sample data
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# Create plot
+plt.figure(figsize=(8, 6))
+plt.plot(x, y1, label='Series 1')
+plt.plot(x, y2, label='Series 2')
+plt.xlabel('X values')
+plt.ylabel('Y values')
+plt.title('Example Line Plot')
+plt.legend()
+plt.show()
+```
+
+## Supported Plot Types
+
+The ipaplots style works with all matplotlib plot types:
+
+- **Scatter plots**: `plt.scatter()`
+- **Line plots**: `plt.plot()`
+- **Bar charts**: `plt.bar()`, `plt.barh()`
+- **Histograms**: `plt.hist()`
+- **Box plots**: `plt.boxplot()`
+- **Pie charts**: `plt.pie()`
+- **Area/Density plots**: `plt.fill_between()`
+- **Subplots**: `plt.subplots()`
+
+## Color Palette
+
+The package includes 15 distinct colors optimized for data visualization:
+
+1. Primary Green: `#49AC57`
+2. Dark Green: `#155240`
+3. Light Blue: `#84D0D4`
+4. Navy Blue: `#2E4085`
+5. Orange: `#F26529`
+6. Light Purple: `#BE9FFA`
+7. Yellow: `#F5CB57`
+8. Dark Blue: `#032B6C`
+9. Medium Blue: `#5566B0`
+10. Light Blue: `#A0A9EA`
+11. Light Orange: `#FC9757`
+12. Dark Orange: `#C8420A`
+13. Dark Red: `#730000`
+14. Forest Green: `#2B754A`
+15. Gray: `#C9C9C8`
+
+## Examples
+
+The package includes comprehensive examples demonstrating all plot types from the original Stata implementation:
+
+```bash
+# Install the package first
+uv pip install .
+
+# Run the demo script
+cd examples
+uv run python demo_plots.py
+```
+
+This will generate 9 different plot types in the `examples/output/` directory:
+
+1. **scatter_plot.png** - Basic scatter plot
+2. **line_graph.png** - Multi-group line plot with legend
+3. **pie_chart.png** - Pie chart with percentages
+4. **box_plot.png** - Box plot for multiple variables
+5. **histogram.png** - Histogram with percentage scale
+6. **hbar.png** - Horizontal bar chart with value labels
+7. **density.png** - Overlapping density plots
+8. **range_graphs.png** - Range plots with error bars
+9. **bygraphs.png** - Grouped box plots (subplots)
+
+All examples use the actual test data from the original Stata package (`ipaplots_test_data.dta`).
+
+## Development
+
+### Requirements
+
+- Python >= 3.7
+- matplotlib (core dependency)
+- pandas (required for examples with Stata data)
+- ipykernel (for Jupyter support)
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/PovertyAction/ipaplots.git
+cd py-ipaplots
+
+# Install in development mode
+uv pip install -e .
+
+# Run examples to test
+cd examples
+uv run python demo_plots.py
+```
+
+### Building
+
+This package uses the uv build backend:
+
+```bash
+# Build wheel and source distribution
+uv build
+
+# Install from built wheel
+uv pip install dist/*.whl
+```
+
+### Project Structure
+
+```
+py-ipaplots/
+├── src/ipaplots/
+│   ├── __init__.py              # Package initialization & style registration
+│   ├── ipaplots.py              # Main module (future utility functions)
+│   └── styles/
+│       └── ipaplots.mplstyle    # Matplotlib style sheet
+├── examples/
+│   ├── demo_plots.py            # Comprehensive plotting examples
+│   └── data/
+│       └── ipaplots_test_data.dta  # Original Stata test data
+├── ipaplots/                    # Original Stata package (reference)
+├── pyproject.toml               # Package configuration
+└── README.md
+```
+
+## Status
+
+This package is currently in **development** (v0.0.1). The core matplotlib style is complete and functional, but additional utility functions and CLI tools are planned for future releases.
+
+### What's Working ✅
+- Complete matplotlib style with IPA color palette and typography
+- Style registration (`plt.style.use("ipaplots")`)
+- Comprehensive examples with all plot types
+- Real Stata test data integration
+- uv build system support
+
+### Planned Features 🚧
+- Utility functions for common plot types
+- Command-line interface for style management
+- Color palette accessor functions
+- Additional plot templates
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Credits
+
+Based on the original Stata ipaplots scheme by Kelly Montaño and Ronny M. Condor.
+
+## Support
+
+- **Repository**: https://github.com/PovertyAction/py-ipaplots
+- **Issues**: https://github.com/PovertyAction/py-ipaplots/issues
+- **Organization**: [Innovations for Poverty Action](https://www.poverty-action.org/)

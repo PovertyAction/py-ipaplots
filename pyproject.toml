@@ -1,71 +1,33 @@
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9.0"]
+build-backend = "uv_build"
+
 [project]
-name = "project-name"
-version = "0.1.0"
-description = "Project description"
+name = "ipaplots"
+version = "0.0.1"
+authors = [
+  { name = "Innovations for Poverty Action", email = "researchsupport@poverty-action.org" },
+]
+description = "A matplotlib style package for creating IPA-themed plots."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
 dependencies = [
-    "duckdb>=1.1.3",
-    "great-tables>=0.15.0",
-    "ipykernel>=6.29.5",
-    "jupyter>=1.1.1",
-    "jupytext>=1.17.2",
-    "pandas>=2.2.3",
-    "polars>=1.17.1",
-    "seaborn>=0.13.2",
+    "ipykernel>=6.16.2",
+    "matplotlib",
+    "pandas>=1.1.5",
 ]
 
+[project.optional-dependencies]
+dev = ["pandas", "jupyter", "seaborn"]
 
-[tool.uv]
-dev-dependencies = [
-    "codespell>=2.4.1",
-    "pre-commit>=4.2.0",
-    "ruff>=0.7.4",
-]
+[project.urls]
+"Homepage" = "https://github.com/PovertyAction/ipaplots"
+"Bug Tracker" = "https://github.com/PovertyAction/ipaplots/issues"
 
-[tool.ruff]
-line-length = 88
-fix = true
-# Assume Python 3.12
-target-version = "py312"
-
-[tool.ruff.lint]
-# docs: https://docs.astral.sh/ruff/rules/
-select = [
-    "F",   # Pyflakes
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "I",   # isort
-    "D",   # flake8-docstrings
-    "UP",  # pyupgrade
-    "SIM", # flake8-simplify
-]
-
-ignore = [
-    # do not enable if formatting
-    # docs: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
-    "W191",   # tab indentation
-    "E111",   # indentation
-    "E114",   # indentation
-    "E117",   # over indented
-    "D206",   # indent with spaces
-    "D300",   # triple single quotes
-    "E501",   # line length regulated by formatter
-    "D105",   # missing docstring in magic method
-    "D100",   # missing docstring in public module
-    "D104",   # missing docstring in public package
-    "SIM110", # Use all instead of `for` loop
-    "TRY003", # Avoid specifying long messages outside the exception class
-    "D205",   # 1 blank line required between summary line and description
-    "D203",
-    "D213",
-]
-
-[tool.ruff.format]
-docstring-code-format = true
-docstring-code-line-length = 88
-
-[tool.codespell]
-builtin = "clear,rare,informal,usage,code,names"
-ignore-words-list = "jupyter,ipa"
-skip = "uv.lock"
+[tool.uv.build-backend]
+source-include = ["src/ipaplots/styles/*.mplstyle"]
